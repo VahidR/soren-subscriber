@@ -35,7 +35,7 @@ How to populate the tables
 
 *ATTENTION*: Please note that to populate the `Category` table, the `superCategoryCode` of the root node should be *null*!
 This is how the application finds the *root node* in the *tree of nodes*, and builds the recursive tree 
-out of it..
+out of it.
 
 A typical way to populate the category tree should be something like the following: 
 
