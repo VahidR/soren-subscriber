@@ -1,0 +1,5 @@
+database:
+  driverClass: org.postgresql.Driver
+  url: jdbc:postgresql://localhost/soren_subscriber
+  user: vahid
+  password:
