@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 public class SubscriberService {
     private static final Logger log = LoggerFactory.getLogger(SubscriberService.class);
 
-//    @Inject
     SorenSubscriberDAO sorenSubscriberDAO;
 
     @Inject
