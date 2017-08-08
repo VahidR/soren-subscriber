@@ -1,19 +1,25 @@
 package org.vahid;
 
+import static org.vahid.util.Constants.APPLICATION_NAME;
+import static org.vahid.util.Constants.DATABASE_TYPE;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import io.dropwizard.Application;
-import io.dropwizard.jdbi.DBIFactory;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
+
 import org.skife.jdbi.v2.DBI;
 import org.vahid.db.SorenSubscriberDAO;
 import org.vahid.health.SubscriberHealthCheck;
 import org.vahid.resources.SubscriberResource;
 
-import static org.vahid.util.Constants.DATABASE_TYPE;
-import static org.vahid.util.Constants.APPLICATION_NAME;
+import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.jdbi.DBIFactory;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
+import io.swagger.jaxrs.config.BeanConfig;
+import io.swagger.jaxrs.listing.ApiListingResource;
 
 
 public class SorenSubscriberApplication extends Application<SorenSubscriberConfiguration> {
@@ -30,6 +36,7 @@ public class SorenSubscriberApplication extends Application<SorenSubscriberConfi
     @Override
     public void initialize(final Bootstrap<SorenSubscriberConfiguration> bootstrap) {
         // TODO: application initialization
+        bootstrap.addBundle(new AssetsBundle("/swagger-ui", "/docs", "index.html"));
     }
 
     @Override
@@ -45,11 +52,22 @@ public class SorenSubscriberApplication extends Application<SorenSubscriberConfi
             }
         });
 
+        // Swagger doc endpoint
+        environment.jersey().register(new ApiListingResource());
+
         // Health Check registration
         environment.jersey().register(injector.getInstance(SubscriberHealthCheck.class));
 
         // Resources registration
         environment.jersey().register(injector.getInstance(SubscriberResource.class));
+
+        environment.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        BeanConfig config = new BeanConfig();
+        config.setTitle("Swagger sample app");
+        config.setVersion("1.0.0");
+        config.setResourcePackage("org.vahid.resources");
+        config.setScan(true);
     }
 
 }
