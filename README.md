@@ -19,7 +19,7 @@ How to start the Soren Subscriber Service
 5. Run `./init-db.sh <your DB username>` to create the required tables in DB
 6. Run `mvn clean test` to be sure that all the tests pass
 7. Run `mvn clean install` to build the application
-8. Start application with `./run-services server config.yml`
+8. Start application with `./run-service.sh server config.yml`
 9. To check that the application is running enter url `http://localhost:8080/api/v1/ping`
 
 Health Check
